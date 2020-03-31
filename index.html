@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|Noto+Sans+JP:400,700,900|Noto+Serif+JP:400,700,900|PT+Sans:400,700|PT+Serif:400,700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+    <title>Demo</title>
+</head>
+<body>
+    <div class="container my-5">
+        <p>
+            最大公約数（以下GCD）とは2つの整数の公約数のうち最大のものを指します。例えば、60と168のGCDは12です。
+            GCDの求め方で、最も基礎的かつ原始的な方法は、それぞれの整数の約数を一旦すべて羅列し、そこから共通する最大のものを抽出するというやり方です。<br>
+            このやり方でやると、<br>
+            60の約数 = 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60 <br>
+            168の約数 = 1, 2, 3, 4, 6, 7, 8, 12, 14, 21, 24, 28, 42, 56, 84, 168 <br>
+            ですから、確かに60と168のGCDが12であることがわかるでしょう。<br>
+            しかしながら、もし整数が非常に大きな場合、このやり方では処理量が多く、正確性、スピードに欠けるのです。<br>
+            そこで、違ったアプローチでGCDを求めることを考えましょう。
+        </p>
+
+        <p>
+            いまあなたの目の前に縦60cm×横168cmの紙があるとしましょう。<br>
+            <img src="image/アートボード1.png" alt="">
+            そこからごみを一切出さず、同じ形かつできるだけ大きな正方形を切り出すとしましょう。正方形の1辺は何cmにすればよいでしょうか。<br>
+            <img src="image/アートボード2.png" alt="">
+            答えは実は60と168の最大公約数になるのです。<br>
+            まず、ぴったり切り出すために、正方形の1辺は60と168の公約数でなければいけませんし、その中でできるだけ大きな正方形となると1辺の長さがGCDになるのです。
+        </p>
+
+        <p>
+            こうした正方形は次のようなやりかたでも切り出せます。<br>
+            まず60×60の正方形を2枚切り出します。<br>
+            <img src="image/アートボード3.png" alt="">
+            つぎに残った部分から48×48の正方形を一つ切り出します。同じことを繰り返すと、最終的に元の紙は、大きさの異なる正方形で次のようにちょうど切り分けられるでしょう。<br>
+            <img src="image/アートボード4.png" alt="">
+            48×48の正方形は12×12の正方形4枚分に相当しますし、60×60の正方形は12×12の正方形9枚分に相当しますので、やはり元の紙は12×12の正方形でちょうど切り出せるのです。<br>
+            <img src="image/アートボード5.png" alt="">
+            ここで、整数mと整数nのGCDをgcd(m,n)と表記することにしましょう。(m,nの最大公約数を求める関数とみてもいいでしょう）先述の通りgcd(60,168)=12が成り立ちます。<br>
+            それではgcd(60,108)はいくらだと思いますか？<br>
+            縦60×横108の紙を想像してみてください。これは先ほどの紙から60×60の正方形を切り取ったものですのでgcd(60,108)=12となるのは容易に推測できますね。<br>
+            同様に、gcd(60,48)=gcd(12,48)=12になることも理解に困らないでしょう。
+            <img src="image/アートボード6.png" alt="">
+        </p>
+
+        <p>
+            ここから導き出せる1つの再帰アルゴリズムは次のような式で表現できます。<br></p>
+        <pre>
+        gcd(m,n) = gcd(m-n,n) (m > n)
+        gcd(m,n) = gcd(m,n-m) (m < n)
+        gcd(m,m) = m
+        </pre>
+        <p>試しに210と45をgcd関数の中に入れてみましょう。</p>
+        <pre>
+        gcd(210,45)
+
+        = gcd(165,45)
+
+        = gcd(120,45
+
+        = gcd(75,45)
+
+        = gcd(30,45)
+
+        = gcd(30,15)
+
+        = gcd(15,15)
+
+        =15
+        </pre>
+        <p>
+            最大公約数は15になります。<br>
+            上の処理をコード化すると以下のようになります。<br>
+        </p>
+        <pre>
+            <code>
+            int gcd(int m, int n) {
+                if(m == n) {
+                    return m;
+                }else if(m > n){
+                    return gcd(m-n,n);
+                }else{
+                    return gcd(m,n-m);
+                }
+            }
+            gcd(44,242); // 22
+            </code>
+        </pre>
+
+<h4> Next Page</h4>
+
+        <p>
+            注意しなければいけないことは、先程のようなやり方は、あくまでも最大公約数を導く１つのやり方に過ぎないということです。一般に1つの問題に対して様々なアルゴリズムが考えられ、我々はその中で最適なものを臨機応変に選ぶ必要があるのです。
+        </p>
+
+        <p>
+            GCDを導く他のやり方として、ユークリッドアルゴリズムという似たような方法があります。<br>
+            このアルゴリズムを学習する前に、剰余演算子mod（％）について学びましょう。この演算子は次のように使われます。<br>
+            A mod B = (A÷Bの余り)<br>
+            例：9 mod 2 = 1 <br>
+            もしくは、 <br>
+            A mod B = A - B⌊A÷B⌋ （⌊A÷B⌋は、A÷Bにmath.floor（四捨五入）をしているという意味）<br>
+            例： 9 mod 2 = 9 - 2 * ⌊4.5⌋ = 9 - 2*4 = 1 <br>
+            このmodを用いることで、無駄な処理を省くことができるのです。<br>
+            例えば先ほどのアルゴリズムでは、
+        </p>
+        <pre>
+        gcd(60,168)
+
+        =gcd(60,168-60)=gcd(60,108)
+
+        =gcd(60,108-60)=gcd(60,48)
+        </pre>
+        <P>
+            としていた計算も、modを用いれば、<br>
+        </P>
+        <pre>
+        gcd(60,168)
+
+        =gcd(60, 168 mod 60) = gcd(60,48)
+        </pre>
+        <p>
+            と短縮されるのです。<br>
+            この剰余演算子modを用いたアルゴリズムは次のような式で表現できます。
+        </p>
+        <pre>
+        gcd(m,0) = a
+        gcd(m,n) = gcd(m, m mod n)
+        </pre>
+        <p>
+            例を見てみましょう。3355と2379の最大公約数を求めてみます。
+        </p>
+        <pre>
+        gcd(3355,2379)
+
+        = gcd(3355,976) (3355 ÷ 2379 = 1 余り976)
+
+        = gcd(976,427) (976 ÷ 427 = 2 余り122)
+
+        = gcd(427,122) (427 ÷ 122 = 3 余り61)
+
+        = gcd(122,61) (122 ÷ 61 = 2)
+
+        = gcd(61,0)
+
+        = 61
+        </pre>
+
+        <p>
+            上の処理をコード化すると以下のようになります。
+        </p>
+        <pre>
+            <code>
+            int gcd(int m, int n) {
+                if ((m % n) == 0){
+                    return n;
+                }else{
+                    return gcd(n, m % n);
+                }
+            }
+            gcd(44,242); // 22
+            </code>
+        </pre>
+        <p>
+            この魔法のようなアルゴリズムがまだ腑に落ちない場合は、実際に紙の上に書いて処理を理解してみましょう。
+        </p>
+    </div>
+</body>
+</html>
