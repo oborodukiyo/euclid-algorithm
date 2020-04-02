@@ -15,12 +15,16 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900|Noto+Sans+JP:400,700,900|Noto+Serif+JP:400,700,900|PT+Sans:400,700|PT+Serif:400,700&display=swap" rel="stylesheet">
 
+    <!-- Google Code Prettify-->
+    <link rel="stylesheet" type="text/css" href="css/tranquil-heart.css">
+    <script type="text/javascript" src="js/prettify.js"></script>
+
     <!-- Chart.js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
     <title>Demo</title>
 </head>
-<body>
+<body onload="PR.prettyPrint()">
     <div class="container my-5">
         <p>
             最大公約数（以下GCD）とは2つの整数の公約数のうち最大のものを指します。例えば、60と168のGCDは12です。
@@ -86,20 +90,17 @@
             最大公約数は15になります。<br>
             上の処理をコード化すると以下のようになります。<br>
         </p>
-        <pre>
-            <code>
-            int gcd(int m, int n) {
-                if(m == n) {
-                    return m;
-                }else if(m > n){
-                    return gcd(m-n,n);
-                }else{
-                    return gcd(m,n-m);
-                }
-            }
-            gcd(44,242); // 22
-            </code>
-        </pre>
+<pre class="prettyprint linenums"><code>int gcd(int m, int n) {
+    if(m == n) {
+        return m;
+    }else if(m > n){
+        return gcd(m-n,n);
+    }else{
+        return gcd(m,n-m);
+    }
+}
+gcd(44,242); // 22
+</code></pre>
 
 <h4> Next Page</h4>
 
@@ -163,18 +164,15 @@
         <p>
             上の処理をコード化すると以下のようになります。
         </p>
-        <pre>
-            <code>
-            int gcd(int m, int n) {
-                if ((m % n) == 0){
-                    return n;
-                }else{
-                    return gcd(n, m % n);
-                }
-            }
-            gcd(44,242); // 22
-            </code>
-        </pre>
+<pre class="prettyprint linenums"><code>int gcd(int m, int n) {
+    if ((m % n) == 0){
+        return n;
+    }else{
+        return gcd(n, m % n);
+    }
+}
+gcd(44,242); // 22
+</code></pre>
         <p>
             この魔法のようなアルゴリズムがまだ腑に落ちない場合は、実際に紙の上に書いて処理を理解してみましょう。
         </p>
